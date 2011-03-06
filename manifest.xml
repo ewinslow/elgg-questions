@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin_manifest>
+        <field key="author" value="Javier Luces jluces@df-digital.com" />
+        <field key="version" value="0.6" />
+        <field key="description" value="Questions Plugin" ></field>
+        <field key="website" value="http://www.df-digital.com" />
+		<field key="licence" value="GNU Public License version 2" />
+        <field key="copyright" value="(c) DF-Digital 2009" />
+</plugin_manifest>
