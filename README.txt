@@ -1,0 +1,1 @@
+Adds a Facebook-like "questions" feature to your Elgg network
