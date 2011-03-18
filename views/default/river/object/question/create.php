@@ -6,18 +6,20 @@
  *	@license GNU General Public License (GPL) version 2
  *	@copyright (c) DF-Digital 2009
  *	@link http://www.df-digital.com
- **/
-?>
-<?php
+ */
 
-	$statement = $vars['statement'];
-	$performed_by = $statement->getSubject();
-	$object = $statement->getObject();
+$statement = $vars['item'];
+$performed_by = get_entity($statement->subject_guid);
+$object = get_entity($statement->object_guid);
 
-	$url = "<a href=\"{$performed_by->getURL()}\">{$performed_by->name}</a>";
-	$string = sprintf(elgg_echo("questions:river:question:created"),$url) . " ";
-	$string .= "<a href=\"" . $object->getURL() . "\">" . elgg_echo("questions:river:question:create") . "</a>";
+$url = elgg_view('output/url', array(
+	'href' => $performed_by->getURL(),
+	'text' => $performed_by->name,
+	'encode_text' => TRUE,
+));
 
-?>
-
-<?php echo $string; ?>
+echo elgg_echo("questions:river:question:created", array($url)) . " ";
+echo elgg_view('output/url', array(
+	'href' => $object->getURL(),
+	'text' => elgg_echo("questions:river:question:create"),
+));

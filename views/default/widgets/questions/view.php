@@ -1,36 +1,21 @@
 <?php
 /**
- *	QUESTIONS PLUGIN
- *	@package questions
- *	@author Javier Luces jluces@df-digital.com
- *	@license GNU General Public License (GPL) version 2
- *	@copyright (c) DF-Digital 2009
- *	@link http://www.df-digital.com
+ *	Questions widget content
  **/
-?>
-<p>
-	<?php
 
-		// Get any wire notes to display
-		// Get the current page's owner
-		$page_owner = page_owner_entity();
-		if ($page_owner === false || is_null($page_owner)) {
-			$page_owner = $_SESSION['user'];
-			set_page_owner($page_owner->getGUID());
-		}
+$widget = $vars['entity'];
 
-		$questions = $page_owner->getObjects('question', $vars['entity']->num_display);
+// Get any wire notes to display
+// Get the current page's owner
+$page_owner = elgg_get_page_owner_entity();
+if ($page_owner === false || is_null($page_owner)) {
+	$page_owner = elgg_get_logged_in_user_entity();
+	elgg_set_page_owner_guid($page_owner->getGUID());
+}
 
-		// If there are any questions to view, view them
-		if (is_array($questions) && sizeof($questions) > 0) {
-
-			foreach($questions as $question) {
-
-				echo elgg_view_entity($question,false);
-
-			}
-
-		}
-
-	?>
-</p>
+echo elgg_list_entities(array(
+	'type' => 'object',
+	'subtype' => 'question',
+	'container_guid' => $page_owner->guid,
+	'limit' => $widget->limit,
+));

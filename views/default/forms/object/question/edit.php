@@ -25,6 +25,12 @@ $categories = array(
 	'id' => 'question_categories',
 	'value' => $question->categories,
 );
+
+$access_id = array(
+	'name' => 'access_id',
+	'id' => 'question_access_id',
+	'value' => $question->access_id,
+);
 ?>
 
 <div>
@@ -46,6 +52,11 @@ $categories = array(
 	<?php echo elgg_view('input/categories', $categories); ?>
 </div>
 <?php endif; ?>
+
+<div>
+	<label for="question_access_id"><?php echo elgg_echo('access'); ?></label>
+	<?php echo elgg_view('input/access', $access_id); ?>
+</div>
 
 <div>
 <?php

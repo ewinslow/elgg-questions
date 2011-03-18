@@ -1,27 +1,21 @@
 <?php
-gatekeeper();
+/**
+ * Add bookmark page
+ *
+ * @package Bookmarks
+ */
 
-$container_guid = get_input('container_guid', elgg_get_logged_in_user_guid());
+$title = elgg_echo('questions:add');
 
-$container = get_entity($container_guid);
+elgg_push_breadcrumb($title);
 
-elgg_push_breadcrumb(elgg_echo('questions:add'));
+$content = elgg_view_form('object/question/add');
 
-$body_vars = array(
-	'container_guid' => $container->guid,
-);
+$body = elgg_view_layout('content', array(
+	'title' => $title,
+	'content' => $content,
+	'filter' => '',
+	'buttons' => '',
+));
 
-$params = array();
-
-$params['filter_override'] = '';
-$params['buttons'] = '';
-
-$params['title'] = elgg_echo('questions:add');
-
-$params['content'] = elgg_view_form('object/question/add', array('name' => 'question'), $body_vars);
-
-$params['sidebar'] = elgg_view('questions/sidebar', array('page' => 'add'));
-
-$body = elgg_view_layout('content', $params);
-
-echo elgg_view_page($params['title'], $body);
+echo elgg_view_page($title, $body);

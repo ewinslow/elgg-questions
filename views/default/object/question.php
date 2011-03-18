@@ -1,166 +1,88 @@
 <?php
 /**
- *	QUESTIONS PLUGIN
- *	@package questions
- *	@author Javier Luces jluces@df-digital.com
- *	@license GNU General Public License (GPL) version 2
- *	@copyright (c) DF-Digital 2009
- *	@link http://www.df-digital.com
- **/
-?>
-<?php
-	require_once(dirname(dirname(dirname(dirname((__FILE__)))))."/utilities/utilities.php");
-	//get data
-	$page = get_input('page');
+ * Elgg question view
+ *
+ * @package ElggBookmarks
+ */
 
-	$question = new ElggObject($vars['entity']->guid);
-	$owner = $question->getOwnerEntity();
+$full = elgg_extract('full', $vars, FALSE);
+$question = elgg_extract('entity', $vars, FALSE);
 
-	echo $owner;
-	$icon = elgg_view("profile/icon",array('entity' => $owner, 'size' => 'small'));
+if (!$question) {
+	return;
+}
 
-	$controls = "";
-	$number_of_answers = $question->countEntitiesFromRelationship('answer');
+$owner = $question->getOwnerEntity();
+$owner_icon = elgg_view_entity_icon($owner, 'small');
+$container = $question->getContainerEntity();
+$categories = elgg_view('output/categories', $vars);
 
-	switch($question->open)
-	{
-		case 'true':
-			$status = 'open';
-			$action = 'close';
-			break;
-		case 'false':
-			$status = 'close';
-			$action = 'open';
-			break;
-		default:break;
-	}
-	$lock = '<div class="question_' . $status . '">';
+$title = elgg_view('output/text', array('value' => $question->title));
+$description = elgg_view('output/longtext', array('value' => $question->description));
 
-	if( $number_of_answers > 0)
-	{
-		if($page <> "viewanswers")
-		{
-			$style = "_answered";
-			$controls .= "<a href=\"" . $vars['url'] . "pg/questions/viewanswers/" . $question->guid .
-						 "\">" . sprintf(elgg_echo('questions:body:viewanswers'),$number_of_answers) . "</a>&nbsp;&nbsp;";
-		}
-		else
-		{
-			$style = "_notanswered";
-			if($number_of_answers == 1)
-				$controls .= "<strong>".sprintf(elgg_echo('questions:body:numberofanswer'),$number_of_answers) . "</strong>&nbsp;&nbsp;";
-			else
-				$controls .= "<strong>".sprintf(elgg_echo('questions:body:numberofanswers'),$number_of_answers) . "</strong>&nbsp;&nbsp;";
-		}
-	}
-	else
-	{
-		$style = "_notanswered";
-		if(	$question->whoanswers == "common"
-			||	$_SESSION['user']->admin
-			||	$_SESSION['user']->siteadmin)
-		{
-			if($owner->guid <> $_SESSION['user']->getGUID())
-				$controls .= "<a href=\"" . $vars['url'] . "pg/questions/answer/" . $question->guid . "\">" . elgg_echo('questions:body:answer') . "</a>&nbsp;&nbsp;";
-		}
-	}
+$owner_link = elgg_view('output/url', array(
+	'href' => "questions/owner/$owner->username",
+	'text' => $owner->name,
+));
+$author_text = elgg_echo('byline', array($owner_link));
 
-	$interest = "";
-	$array_interest = interesting_question($question);
-	$interesting = $array_interest['interesting'];
-	$not_interesting = $array_interest['not_interesting'];
-	$interest .= "<strong>" . elgg_echo('questions:body:rate:interesting') . "</strong>&nbsp;";
-	$link_interesting  = "<span style=\"color:green;\">" . sprintf(elgg_echo('questions:body:rate:yes'), $interesting) . "</span>&nbsp;";
-	$link_not_interesting  = "<span style=\"color:red;\">" . sprintf(elgg_echo('questions:body:rate:no'), $not_interesting) . "</span>&nbsp;";
+$tags = elgg_view('output/tags', array('tags' => $question->tags));
+$date = elgg_view_friendly_time($question->time_created);
 
-	if( can_rate_question( $_SESSION['user'] , $owner , $question ) )
-	{
-		$link_interesting  = "<a href=\"" . $vars['url'] . "action/questions/ratequestion?question_guid=" . $question->guid . "&interesting=yes\">$link_interesting</a>&nbsp;";
-		$link_not_interesting  = "<a href=\"" . $vars['url'] . "action/questions/ratequestion?question_guid=" . $question->guid . "&interesting=no\">$link_not_interesting</a>&nbsp;";
-	}
+$answers_count = $question->getAnswers(array('count' => TRUE));
 
+//only display if there are commments
+if ($answers_count != 0) {
+	$text = elgg_echo("answers") . " ($answers_count)";
+	$answers_link = elgg_view('output/url', array(
+		'href' => $question->getURL() . '#answers',
+		'text' => $text,
+	));
+} else {
+	$answers_link = '';
+}
 
-	$interest .= $link_interesting.$link_not_interesting;
+$metadata = elgg_view_menu('entity', array(
+	'entity' => $vars['entity'],
+	'handler' => 'questions',
+	'sort_by' => 'priority',
+	'class' => 'elgg-menu-hz',
+));
 
-	//question info
-	$info_question = "<b>\"".$question->question."\"</b>";
-	$info_time = sprintf(elgg_echo("questions:body:submittedby"), friendly_time($question->time_created), $ownertxt);
-	$info_url = "<a href=\"" . $owner->getURL() . "\">" . $owner->name ."</a>";
+$subtitle = "$author_text $date $categories $answers_link";
 
+// do not show the metadata and controls in widget view
+if (elgg_in_context('widgets')) {
+	$metadata = '';
+}
 
-	//setup admin controls
-	if ($_SESSION['user']->getGUID() == $question->owner_guid || $_SESSION['user']->admin || $_SESSION['user']->siteadmin)
-	{
-		if( $number_of_answers > 0)
-			$lock .= '<a href="' . $vars['url'] . "action/questions/" . $action . "question?question_guid=" . $question->guid . '" title="' . elgg_echo('questions:action:'. $action . 'question') .'"></a>';
-		else
-			$lock .='<img src="' . $vars['url'] . 'mod/questions/graphics/' . $status . 'question_20.png" title="' . elgg_echo('questions:status:'. $status . 'question') . '" align="left" style="padding-top:3px;" />';
-		//this is for deleting the question (allowed by owner and admin)
+if ($full && !elgg_in_context('gallery')) {
 
-		$controls .= "<a href=\"". $vars['url'] . "pg/questions/editquestion/" . $question->guid . "\">" . elgg_echo('questions:body:editquestion') . "</a>&nbsp;&nbsp;";
-		$controls .= elgg_view("output/confirmlink", array(
-		'href' => $vars['url'] . "action/questions/deletequestion?question_guid=" . $question->guid,
-		'text' => elgg_echo('questions:body:deletequestion'),
-		'confirm' => elgg_echo('questions:body:deletequestionconfirm')));
-	}
-	else
-		$lock .='<img src="' . $vars['url'] . 'mod/questions/graphics/' . $status . 'question_20.png" title="' . elgg_echo('questions:status:'. $status . 'question') . '" align="left" style="padding-top:3px;" />';
-	$lock .= '</div>';
+	$header = elgg_view_title($title);
 
-	// In answer page, question has no controls.
-	if($page == "answer") unset($controls);
-?>
-<div class="questions">
-	<div class="question<?php echo $style; ?>">
-		<!-- display the user icon -->
-		<div class="questions_icon">
-		    <?php
-		        echo elgg_view("profile/icon",array('entity' => $question->getOwnerEntity(), 'size' => 'tiny'));
-			?>
-	    </div>
-	    <div class="questions_title">
-			<?php echo $lock; ?>
-	    	<?php echo $question->title; ?>
-	    </div>
-	    <div class="clearfloat"></div>
-		<div class="questions_body">
-			<?php
+	$body = $description;
+	$body .= $tags;
+	$body .= $categories;
 
-						echo autop($question->question);
+	$question_info = elgg_view_image_block($owner_icon, $description);
+	echo <<<HTML
+$metadata
+$header
+$question_info
+HTML;
 
-			?>
-		</div>
-		<p class="strapline">
-			<?php
+} else {
+	// brief view
+	$excerpt = elgg_get_excerpt($question->description);
 
-				echo sprintf(elgg_echo("questions:body:submittedby"),
-								friendly_time($question->time_created), $ownertxt);
-			 	echo "<a href=\"" . $owner->getURL() . "\">" . $owner->name ."</a>";
+	$params = array(
+		'entity' => $question,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'tags' => $tags,
+		'content' => $excerpt,
+	);
 
-			?>
-		</p>
-		<!-- display tags -->
-		<p class="tags">
-			<?php
-
-				echo elgg_view('output/tags', array('tags' => $question->tags));
-
-			?>
-		</p>
-		<div class="clearfloat"></div>
-		<div class="questions_rate">
-		<p>
-		<?php
-			echo $interest
-		?>
-		</p>
-		</div>
-		<div class="clearfloat"></div>
-		<!-- display edit options if it is the question owner -->
-		<p class="options">
-		<?php
-			echo $controls;
-		?>
-		</p>
-	</div>
-</div>
+	$body = elgg_view('page/components/summary', $params);
+	echo elgg_view_image_block($owner_icon, $body);
+}
