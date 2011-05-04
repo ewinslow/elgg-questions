@@ -36,7 +36,7 @@ $count = elgg_get_entities($options);
 
 $content .= elgg_view_module('info', "$count " . elgg_echo('answers'), $answers);
 
-$user_icon = elgg_view_entity_icon(elgg_get_logged_in_user_entity(), 'small');
+$user_icon = elgg_view_entity_icon(elgg_get_logged_in_user_entity(), 'tiny');
 $add_form = elgg_view_form('object/answer/add', array(), array('container_guid' => $question->guid));
 
 $add_block = elgg_view_image_block($user_icon, $add_form);
@@ -44,8 +44,8 @@ $add_block = elgg_view_image_block($user_icon, $add_form);
 $content .= elgg_view_module('info', elgg_echo('answers:addyours'), $add_block);
 
 $body = elgg_view_layout('content', array(
-	'content' => $content,
 	'title' => $title,
+	'content' => $content,
 	'filter' => '',
 	'header' => '',
 ));

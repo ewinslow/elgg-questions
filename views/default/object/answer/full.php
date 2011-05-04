@@ -1,7 +1,7 @@
 <?php
 $answer = $vars['entity'];
 
-$image = elgg_view_entity_icon(get_entity($answer->owner_guid), 'small');
+$image = elgg_view_entity_icon(get_entity($answer->owner_guid), 'tiny');
 
 $body = elgg_view('output/longtext', array('value' => $answer->description));
 

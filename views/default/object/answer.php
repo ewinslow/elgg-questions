@@ -1,15 +1,8 @@
 <?php
 /**
- * Elgg answer view
+ * answer entity view
  *
- * @package Questions
- */
+ * @package comments
+*/
 
-$full = elgg_extract('full', $vars, FALSE);
-
-//if ($full) {
-if (TRUE) {
-
-	echo elgg_view('object/answer/full', $vars);
-
-}
+echo elgg_view('object/default', $vars);

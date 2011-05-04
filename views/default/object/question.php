@@ -1,79 +1,97 @@
 <?php
 /**
- * Elgg question view
+ * Question entity view
  *
- * @package ElggBookmarks
- */
+ * @package Questions
+*/
 
 $full = elgg_extract('full', $vars, FALSE);
 $question = elgg_extract('entity', $vars, FALSE);
 
 if (!$question) {
-	return;
+	return true;
 }
 
-$owner = $question->getOwnerEntity();
-$owner_icon = elgg_view_entity_icon($owner, 'small');
+$poster = $question->getOwnerEntity();
 $container = $question->getContainerEntity();
-$categories = elgg_view('output/categories', $vars);
 
-$title = elgg_view('output/text', array('value' => $question->title));
-$description = elgg_view('output/longtext', array('value' => $question->description));
-
-$owner_link = elgg_view('output/url', array(
-	'href' => "questions/owner/$owner->username",
-	'text' => $owner->name,
+$poster_icon = elgg_view_entity_icon($poster, 'tiny');
+$poster_link = elgg_view('output/url', array(
+	'href' => $poster->getURL(),
+	'text' => $poster->name,
 ));
-$author_text = elgg_echo('byline', array($owner_link));
+$poster_text = elgg_echo('questions:asked', array($poster->name));
 
 $tags = elgg_view('output/tags', array('tags' => $question->tags));
 $date = elgg_view_friendly_time($question->time_created);
 
-$answers_count = $question->getAnswers(array('count' => TRUE));
+$answers_link = '';
+$answers_text = '';
 
-//only display if there are commments
-if ($answers_count != 0) {
-	$text = elgg_echo("answers") . " ($answers_count)";
+$answer_options = array(
+	'type' => 'object',
+	'subtype' => 'answer',
+	'container_guid' => $question->getGUID(),
+	'count' => true,
+);
+
+$num_answers = elgg_get_entities($answer_options);
+
+if ($num_answers != 0) {
+	$last_answer_options = array(
+		'limit' => 1,
+		'count' => false,
+	);
+
+	$last_answer = elgg_get_entities(array_merge($answer_options, $last_answer_options));
+
+	$poster = $last_answer[0]->getOwnerEntity();
+	$answer_time = elgg_view_friendly_time($last_answer[0]->time_created);
+	$answer_text = elgg_echo('questions:answered', array($poster->name, $answer_time));
+
 	$answers_link = elgg_view('output/url', array(
-		'href' => $question->getURL() . '#answers',
-		'text' => $text,
+		'href' => $question->getURL() . '#question-answers',
+		'text' => elgg_echo('answers') . " ($num_answers)",
 	));
-} else {
-	$answers_link = '';
 }
 
 $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
-	'handler' => 'questions',
+	'handler' => 'discussion',
 	'sort_by' => 'priority',
 	'class' => 'elgg-menu-hz',
 ));
-
-$subtitle = "$author_text $date $categories $answers_link";
 
 // do not show the metadata and controls in widget view
 if (elgg_in_context('widgets')) {
 	$metadata = '';
 }
 
-if ($full && !elgg_in_context('gallery')) {
+if ($full) {
+	$subtitle = "$poster_text $date $answers_link";
 
-	$header = elgg_view_title($title);
+	$params = array(
+		'entity' => $question,
+		'title' => false,
+		'metadata' => $metadata,
+		'subtitle' => $subtitle,
+		'tags' => $tags,
+	);
+	$list_body = elgg_view('page/components/summary', $params);
 
-	$body = $description;
-	$body .= $tags;
-	$body .= $categories;
+	$info = elgg_view_image_block($poster_icon, $list_body);
 
-	$question_info = elgg_view_image_block($owner_icon, $description);
+	$body = elgg_view('output/longtext', array('value' => $question->description));
+
 	echo <<<HTML
-$metadata
 $header
-$question_info
+$info
+$body
 HTML;
 
 } else {
 	// brief view
-	$excerpt = elgg_get_excerpt($question->description);
+	$subtitle = "$poster_text $date $answers_link <span class=\"questions-latest-answer\">$answer_text</span>";
 
 	$params = array(
 		'entity' => $question,
@@ -82,7 +100,7 @@ HTML;
 		'tags' => $tags,
 		'content' => $excerpt,
 	);
+	$list_body = elgg_view('page/components/summary', $params);
 
-	$body = elgg_view('page/components/summary', $params);
-	echo elgg_view_image_block($owner_icon, $body);
+	echo elgg_view_image_block($poster_icon, $list_body);
 }
