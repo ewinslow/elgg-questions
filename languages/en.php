@@ -1,14 +1,5 @@
 <?php
-/**
- *	QUESTIONS PLUGIN
- *	@package questions
- *	@author Javier Luces jluces@df-digital.com
- *	@license GNU General Public License (GPL) version 2
- *	@copyright (c) DF-Digital 2009
- *	@link http://www.df-digital.com
- **/
-
-$english = array(
+add_translation('en', array(
 	'answers' => 'Answers',
 
 	'answers:addyours' => 'Add Your Answer',
@@ -33,7 +24,4 @@ $english = array(
 	'widget:questions:title' => "Questions",
 	'widget:questions:description' => "You can view the status of your questions.",
 	'widget:questions:limit' => "Number of questions to display:",
-);
-
-add_translation('en', $english);
-?>
+));
