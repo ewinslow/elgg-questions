@@ -24,8 +24,6 @@ function questions_init() {
 	
 	elgg_register_entity_url_handler('object', 'questions', 'questions_url_handler');
 	
-	objects_init('questions', 'question', 'ElggQuestion');
-
 	$plugin_dir = dirname(__FILE__);
 
 	elgg_register_entity_url_handler('object', 'answer', 'answers_url');
@@ -72,6 +70,7 @@ function questions_notify_message_handler($hook, $entity_type, $returnvalue, $pa
 	}
 
 	return null;
+}
 
 function objects_page_handler($segments) {
 	elgg_push_breadcrumb(elgg_echo('questions'), "/questions/all");
