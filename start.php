@@ -22,7 +22,7 @@ function questions_init() {
 	elgg_register_action("object/question/save", "$actions_base/save.php");
 	elgg_register_action("object/question/delete", "$actions_base/delete.php");
 	
-	elgg_register_entity_url_handler('object', 'questions', 'questions_url_handler');
+	elgg_register_entity_url_handler('object', 'question', 'questions_url_handler');
 	
 	$plugin_dir = dirname(__FILE__);
 
