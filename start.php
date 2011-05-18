@@ -72,7 +72,7 @@ function questions_notify_message_handler($hook, $entity_type, $returnvalue, $pa
 	return null;
 }
 
-function objects_page_handler($segments) {
+function questions_page_handler($segments) {
 	elgg_push_breadcrumb(elgg_echo('questions'), "/questions/all");
 
 	$pages = dirname(__FILE__) . "/pages/questions";
