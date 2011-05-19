@@ -2,6 +2,11 @@
 
 $question = $vars['entity'];
 
+if (!$question) {
+	$question = new ElggQuestion();
+	$question->container_guid = elgg_get_page_owner_guid();
+}
+
 $title = array(
 	'name' => 'title',
 	'id' => 'question_title',
@@ -60,7 +65,7 @@ $access_id = array(
 
 <div>
 <?php
-	echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => elgg_get_page_owner_guid()));
+	echo elgg_view('input/hidden', array('name' => 'container_guid', 'value' => $question->container_guid));
 	echo elgg_view('input/hidden', array('name' => 'guid', 'value' => $question->guid));
 	echo elgg_view('input/submit', array('value' => elgg_echo('submit')));
 ?>

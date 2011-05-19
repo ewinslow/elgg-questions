@@ -9,7 +9,7 @@ $title = elgg_echo('questions:add');
 
 elgg_push_breadcrumb($title);
 
-$content = elgg_view_form('object/question/add');
+$content = elgg_view_form('object/question/save');
 
 $body = elgg_view_layout('content', array(
 	'title' => $title,

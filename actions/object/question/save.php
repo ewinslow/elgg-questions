@@ -43,9 +43,14 @@ $question->container_guid = $container_guid;
 
 try {
 	$question->save();
+	
+	if ($adding) {
+		add_to_river('river/object/question/create', 'create', elgg_get_logged_in_user_guid(), $question->guid, $question->access_id);
+	}
 } catch (Exception $e) {
 	register_error("There was a problem saving your question!");
 	register_error($e->getMessage());
+	forward(REFERER);
 }
 
 elgg_clear_sticky_form('question');

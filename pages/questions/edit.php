@@ -21,7 +21,7 @@ $vars = array(
 	'entity' => $question,
 );
 
-$content = elgg_view_form('object/question/edit', array(), $vars);
+$content = elgg_view_form('object/question/save', array(), $vars);
 
 $body = elgg_view_layout('content', array(
 	'title' => $title,
