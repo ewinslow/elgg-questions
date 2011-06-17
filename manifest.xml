@@ -2,7 +2,7 @@
 <plugin_manifest xmlns="http://www.elgg.org/plugin_manifest/1.8">
 	<name>Questions</name>
 	<author>Evan Winslow</author>
-	<version>1.8</version>
+	<version>1.8b1</version>
 	<category>content</category>
 	<blurb>Questions plugin</blurb>
 	<description>Adds ability for users to ask questions to each other and get answers.</description>
