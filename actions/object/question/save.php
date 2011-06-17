@@ -55,4 +55,11 @@ try {
 
 elgg_clear_sticky_form('question');
 
-forward(get_input('forward', $adding ? "pg/questions/owner/$container_guid" : $question->getURL()));
+$container = $question->getContainerEntity();
+if ($container instanceof ElggUser) {
+	$url = "/questions/owner/$container->username";
+} else {
+	$url = "/questions/group/$container->guid/all";
+}
+
+forward(get_input('forward', $adding ? $url : $question->getURL()));
