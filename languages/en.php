@@ -19,6 +19,9 @@ add_translation('en', array(
 	'questions:none' => "No questions have been submitted yet.",
 	'questions:friends' => "Friends' Questions",
 
+	'object:question:title' => 'Question',
+	'object:question:description' => "Details",
+
 	/**
 	 * Widgets
 	 */

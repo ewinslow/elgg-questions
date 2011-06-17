@@ -39,11 +39,11 @@ $access_id = array(
 ?>
 
 <div>
-	<label for="question_title"><?php echo elgg_echo('title'); ?></label>
+	<label for="question_title"><?php echo elgg_echo('object:question:title'); ?></label>
 	<?php echo elgg_view('input/text', $title); ?>
 </div>
 <div>
-	<label for="question_description"><?php echo elgg_echo('description'); ?></label>
+	<label for="question_description"><?php echo elgg_echo('object:question:description'); ?></label>
 	<?php echo elgg_view('input/longtext', $description); ?>
 </div>
 <div>
@@ -51,7 +51,7 @@ $access_id = array(
 	<?php echo elgg_view('input/tags', $tags); ?>
 </div>
 
-<?php if (elgg_is_active_plugin('categories')): ?>
+<?php if (elgg_view_exists('input/categories')): ?>
 <div>
 	<label for="question_categories"><?php echo elgg_echo('categories'); ?></label>
 	<?php echo elgg_view('input/categories', $categories); ?>

@@ -36,11 +36,29 @@ function questions_init() {
 	
 	elgg_register_plugin_hook_handler("register", "menu:owner_block", 'questions_owner_block_menu_handler');
 	elgg_register_plugin_hook_handler("register", "menu:user_hover", 'questions_user_hover_menu_handler');
+	elgg_register_plugin_hook_handler("register", 'menu:entity', 'questions_entity_menu_handler');
 	elgg_register_plugin_hook_handler("notify:entity:message", "object", 'questions_notify_message_handler');
 	
 	add_group_tool_option('questions', elgg_echo("questions:enable"), true);
 	elgg_extend_view("groups/tool_latest", "questions/group_module");
 }	
+
+function questions_entity_menu_handler($hook, $type, $items, $params) {
+	$entity = $params['entity'];
+	
+	if ($entity->getSubtype() == 'question' || $entity->getSubtype() == 'answer') {
+		$items[] = ElggMenuItem::factory(array(
+			'name' => 'comment',
+			'rel' => 'toggle',
+			'link_class' => 'elgg-toggler',
+			'href' => "#comments-add-$entity->guid",
+			'text' => elgg_view_icon('speech-bubble'),
+			'priority' => 600,
+		));
+	}
+	
+	return $items;
+}
 
 function questions_notify_message_handler($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];

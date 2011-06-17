@@ -15,7 +15,7 @@ if (!$question) {
 $poster = $question->getOwnerEntity();
 $container = $question->getContainerEntity();
 
-$poster_icon = elgg_view_entity_icon($poster, 'tiny');
+$poster_icon = elgg_view_entity_icon($poster, 'small');
 $poster_link = elgg_view('output/url', array(
 	'href' => $poster->getURL(),
 	'text' => $poster->name,
@@ -57,9 +57,8 @@ if ($num_answers != 0) {
 
 $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
-	'handler' => 'discussion',
+	'handler' => 'questions',
 	'sort_by' => 'priority',
-	'class' => 'elgg-menu-hz',
 ));
 
 // do not show the metadata and controls in widget view
@@ -78,14 +77,19 @@ if ($full) {
 		'tags' => $tags,
 	);
 	$list_body = elgg_view('page/components/summary', $params);
+	
+	$list_body .= elgg_view('output/longtext', array('value' => $question->description));
+	
+	//feels hacky...
+	$river_item = new ElggRiverItem();
+	$river_item->object_guid = $question->guid;
+	$list_body .= elgg_view('river/elements/footer', array('item' => $river_item));
+	
+	$body = elgg_view_image_block($poster_icon, $list_body);
 
-	$info = elgg_view_image_block($poster_icon, $list_body);
-
-	$body = elgg_view('output/longtext', array('value' => $question->description));
 
 	echo <<<HTML
 $header
-$info
 $body
 HTML;
 
