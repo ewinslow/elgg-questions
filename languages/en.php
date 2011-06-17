@@ -18,6 +18,7 @@ add_translation('en', array(
 	'questions:owner' => "%s's Questions",
 	'questions:none' => "No questions have been submitted yet.",
 	'questions:friends' => "Friends' Questions",
+	'questions:group' => 'Group questions',
 
 	'object:question:title' => 'Question',
 	'object:question:description' => "Details",
