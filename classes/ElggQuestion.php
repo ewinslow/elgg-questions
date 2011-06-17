@@ -4,6 +4,7 @@ class ElggQuestion extends ElggObject {
 	protected function initializeAttributes() {
 		parent::initializeAttributes();
 		$this->attributes['subtype'] = 'question';
+		$this->attributes['access_id'] = ACCESS_DEFAULT;
 	}
 
 	public function getAnswers(array $options = array()) {
