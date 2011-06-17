@@ -43,6 +43,26 @@ function questions_init() {
 	elgg_extend_view("groups/tool_latest", "questions/group_module");
 }	
 
+function questions_owner_block_menu_handler($hook, $type, $items, $params) {
+	$entity = $params['entity'];
+	
+	if ($entity instanceof ElggGroup && $entity->questions_enable != 'no') {
+		$items[] = ElggMenuItem::factory(array(
+			'name' => 'questions',
+			'href' => "/questions/group/$entity->guid/all",
+			'text' => elgg_echo('questions:group'),
+		));
+	} elseif ($entity instanceof ElggUser) {
+		$items[] = ElggMenuItem::factory(array(
+			'name' => 'questions',
+			'href' => "/questions/owner/$entity->username",
+			'text' => elgg_echo('questions'),
+		));
+	}
+	
+	return $items;
+}
+
 function questions_entity_menu_handler($hook, $type, $items, $params) {
 	$entity = $params['entity'];
 	
