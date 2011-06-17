@@ -47,14 +47,16 @@ function questions_entity_menu_handler($hook, $type, $items, $params) {
 	$entity = $params['entity'];
 	
 	if ($entity->getSubtype() == 'question' || $entity->getSubtype() == 'answer') {
-		$items[] = ElggMenuItem::factory(array(
-			'name' => 'comment',
-			'rel' => 'toggle',
-			'link_class' => 'elgg-toggler',
-			'href' => "#comments-add-$entity->guid",
-			'text' => elgg_view_icon('speech-bubble'),
-			'priority' => 600,
-		));
+		if ($entity->canAnnotate(0, 'generic_comment')) {
+			$items[] = ElggMenuItem::factory(array(
+				'name' => 'comment',
+				'rel' => 'toggle',
+				'link_class' => 'elgg-toggler',
+				'href' => "#comments-add-$entity->guid",
+				'text' => elgg_view_icon('speech-bubble'),
+				'priority' => 600,
+			));
+		}
 	}
 	
 	return $items;
