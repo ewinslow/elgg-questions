@@ -1,7 +1,6 @@
 <?php
 /**
  * Add bookmark page
- * 
  * @package Bookmarks
  */
 
