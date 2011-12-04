@@ -1,0 +1,12 @@
+Questions Elgg 1.8.0.1 b3
+* Fix Hidden Menu
+* New language Brazilian portuguese translation (by Matheus Borges Lopes http://suachance.lucrebem.com.br)
+
+Questions Elgg 1.8.0.1 b2
+* Edit Question work now
+* Language add 
+
+Questions Elgg 1.8.0.1 b1
+* Fix Deprecated in 1.0: Use elgg_register_menu_item() to register for the title menu
+* Add Question Add Button
+* Language add 

@@ -1,12 +1,13 @@
 <?php
 /**
- * Elgg bookmarks plugin everyone page
- * Changed by lianglee
- * @package ElggBookmarks
+ * Elgg questions plugin everyone page
+ *
+ * @package Elggquestions
  */
 
 elgg_set_page_owner_guid(elgg_get_logged_in_user_guid());
-elgg_register_title_button()
+// Add Question 
+elgg_register_title_button();
 
 $content = elgg_list_entities(array(
 	'type' => 'object',

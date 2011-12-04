@@ -20,7 +20,9 @@ function questions_init() {
 	
 	$actions_base = dirname(__FILE__) . '/actions/object/question';
 	elgg_register_action("object/question/save", "$actions_base/save.php");
-	elgg_register_action("object/question/delete", "$actions_base/delete.php");
+	//dele test
+
+// fin
 	
 	elgg_register_entity_url_handler('object', 'question', 'questions_url_handler');
 	
