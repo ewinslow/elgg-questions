@@ -20,7 +20,7 @@ function questions_init() {
 	
 	$actions_base = dirname(__FILE__) . '/actions/object/question';
 	elgg_register_action("object/question/save", "$actions_base/save.php");
-	//dele test
+	elgg_register_action("object/question/delete", "$actions_base/delete.php");
 
 // fin
 	
@@ -83,7 +83,30 @@ function questions_entity_menu_handler($hook, $type, $items, $params) {
 	
 	return $items;
 }
-
+/**
+ * now user can post anwer group questions
+ * 
+ * @param string $hook        The hook
+ * @param string $entity_type The entity type
+ * @param mixed  $returnvalue The return value
+ * @param array  $params      Hook handler params
+ */
+function questions_container_permissions_check_handler($hook, $entity_type, $returnvalue, $params) {
+	
+	if (isset($params['subtype'], $params['container']))
+	{
+		$container = $params['container'];
+		
+		if ($params['subtype'] == 'answer' && $container instanceof ElggQuestion)
+		{
+			$parentContainer = $container->getContainerEntity();
+			if ($parentContainer instanceof ElggGroup && $parentContainer->isMember($params[$user]))
+			{
+				return true;
+			}
+		}
+	}
+}
 function questions_notify_message_handler($hook, $entity_type, $returnvalue, $params) {
 	$entity = $params['entity'];
 	$to_entity = $params['to_entity'];
