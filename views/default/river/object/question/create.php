@@ -10,7 +10,7 @@ $url = elgg_view('output/url', array(
 	'encode_text' => TRUE,
 ));
 
-echo elgg_echo("questions:river:question:created:by", array($url)) . "";
+echo elgg_echo("questions:river:question:created:by"questions:river:question:created:by", array($url)) . "";
 echo elgg_view('output/url', array(
 					'name' => 'newquestioncreated',
 					'href' => $object->getURL(),
