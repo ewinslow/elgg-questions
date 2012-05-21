@@ -1,6 +1,6 @@
 <?php
 /**
- *	Questions widget content
+ * Questions widget content
  **/
 
 $widget = $vars['entity'];
