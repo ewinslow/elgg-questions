@@ -27,7 +27,7 @@ function questions_init() {
 	
 	
 	/**
-	* register action for answer and question fixed by Liang Lee
+	* register actions.
 	**/
 	
 	$actions_base_question = dirname(__FILE__) . '/actions/object/question';
