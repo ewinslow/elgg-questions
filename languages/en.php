@@ -22,7 +22,8 @@ add_translation('en', array(
 
 	'object:question:title' => 'Question',
 	'object:question:description' => "Details",
-	'questions:river:question:created:by' => "New Question is created by",
+	'questions:river:question:created:by' => "%s Posted new Question.",
+	'questions:river:answer:created:by' => "%s posted Answer of Question",
 	'question:view' => " view",
 
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * River entry for new answers
- */
 
 $statement = $vars['item'];
 $performed_by = get_entity($statement->subject_guid);
@@ -13,8 +12,10 @@ $url = elgg_view('output/url', array(
 	'encode_text' => TRUE,
 ));
 
-echo elgg_echo("questions:river:answer:created", array($url)) . " ";
+echo elgg_echo("questions:river:answer:created:by", array($url)) . " ";
 echo elgg_view('output/url', array(
-	'href' => $answer->getURL(),
-	'text' => elgg_echo("questions:river:answer:create"),
-));
+					'name' => 'newquestioncreated',
+					'text' => elgg_echo('question:view'),
+					'href' => $object->getURL(),
+				));
+ */

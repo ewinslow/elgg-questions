@@ -13,5 +13,6 @@ if (!$question->canEdit()) {
 
 $owner = $question->getContainerEntity();
 
+$question->delete();
 
 forward(get_input('forward', "pg/questions/owner/$owner->guid"));
