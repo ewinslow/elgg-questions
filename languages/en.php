@@ -7,7 +7,6 @@ add_translation('en', array(
 	'answers:addyours' => 'Add Your Answer',
 
 	'item:object:answer' => "Answers",
-	'item:object:question' => "Questions",
 
 	'questions' => 'Questions',
 	'questions:asked' => 'Asked by %s',
