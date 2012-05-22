@@ -1,7 +1,6 @@
 <?php
 /**
  * Elgg questions plugin everyone page
- *
  * @package Elggquestions
  */
 
