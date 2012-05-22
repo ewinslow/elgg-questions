@@ -51,12 +51,12 @@ function questions_init() {
 	* Add quesion button.
 	**/
       elgg_register_menu_item('title', array(
-				'name' => 'addquestion',
-				'href' => "questions/add",
-				'text' => elgg_echo('questions:add'),
-				'link_class' => 'elgg-button elgg-button-action',
-				'contexts' => array('questions'),
-));
+			'name' => 'addquestion',
+			'href' => "questions/add",
+			'text' => elgg_echo('questions:add'),
+			'link_class' => 'elgg-button elgg-button-action',
+			'contexts' => array('questions'),
+             ));
 }	
 
 function questions_owner_block_menu_handler($hook, $type, $items, $params) {
