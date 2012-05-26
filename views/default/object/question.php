@@ -59,6 +59,7 @@ $metadata = elgg_view_menu('entity', array(
 	'entity' => $vars['entity'],
 	'handler' => 'questions',
 	'sort_by' => 'priority',
+	'class' => 'elgg-menu-hz'
 ));
 
 // do not show the metadata and controls in widget view
