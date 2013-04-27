@@ -6,7 +6,7 @@
  */
 
 $question_guid = get_input('guid');
-$question = get_entity($question);
+$question = get_entity($question_guid);
 
 if (!elgg_instanceof($question, 'object', 'question') || !$question->canEdit()) {
 	register_error(elgg_echo('questions:unknown'));
