@@ -21,7 +21,7 @@ $title = $question->title;
 
 elgg_push_breadcrumb($title);
 
-$content = elgg_view_entity($question, true);
+$content = elgg_view_entity($question, array('full_view' => true));
 
 $options = array(
 	'type' => 'object',
