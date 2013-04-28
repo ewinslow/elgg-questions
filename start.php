@@ -6,6 +6,9 @@ function questions_init() {
 	add_subtype("object", 'question', 'ElggQuestion');
 	update_subtype("object", 'question', 'ElggQuestion');
 	
+	add_subtype("object", 'answer', 'ElggAnswer');
+	update_subtype("object", 'answer', 'ElggAnswer');
+	
 	elgg_extend_view("css/elgg", "questions/css");
 	elgg_extend_view("js/elgg", "questions/js");
 	
