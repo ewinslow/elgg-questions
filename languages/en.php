@@ -1,6 +1,5 @@
 <?php
 add_translation('en', array(
-	'item:object:question' => 'Questions',
 
 	'answers' => 'Answers',
 
