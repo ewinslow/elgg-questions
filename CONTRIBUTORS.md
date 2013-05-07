@@ -1,2 +1,3 @@
-Evan Winslow <evan@elgg.org>
-Liang Lee
+
+ * Evan Winslow <evan@elgg.org>
+ * Liang Lee
