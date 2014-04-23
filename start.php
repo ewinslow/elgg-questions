@@ -154,6 +154,7 @@ function questions_page_handler($segments) {
 			break;
 
 		case 'group':
+			elgg_register_title_button();		
 			group_gatekeeper();
 			include "$pages/owner.php";
 			break;
