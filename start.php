@@ -122,14 +122,17 @@ function questions_page_handler($segments) {
 
 	switch ($segments[0]) {
 		case "all":
+ 		        elgg_register_title_button();
 			include "$pages/all.php";
 			break;
 
 		case "owner":
+		 	elgg_register_title_button();
 			include "$pages/owner.php";
 			break;
 
 		case "friends":
+	 		elgg_register_title_button();	
 			gatekeeper();
 			include "$pages/friends.php";
 			break;
